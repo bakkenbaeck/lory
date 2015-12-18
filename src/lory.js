@@ -132,6 +132,7 @@ export function lory (slider, opts) {
 
         let mainElement = document.getElementById('main').getElementsByClassName('wrap')[0];
         let mainElementStyle = mainElement.currentStyle || window.getComputedStyle(mainElement);
+        let style = slides[0].currentStyle || window.getComputedStyle(slides[0]);
         let oneImageWidth = parseInt(mainElementStyle.width, 10) < parseInt(style.width, 10) * 2;
 
         const nextSlide = direction ? index + 1 : index - 1;
@@ -156,7 +157,6 @@ export function lory (slider, opts) {
             nextIndex += infinite;
         }
 
-        let style = slides[0].currentStyle || window.getComputedStyle(slides[0]);
         let startingOffset = parseInt(style.paddingLeft, 10) - parseInt(style.paddingRight, 10);
         let nextOffset = Math.min(Math.max(slides[nextIndex].offsetLeft * -1, maxOffset * -1), 0) + (nextIndex === 0 ? 0 : startingOffset);
 

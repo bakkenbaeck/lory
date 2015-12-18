@@ -212,6 +212,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        var mainElement = document.getElementById('main').getElementsByClassName('wrap')[0];
 	        var mainElementStyle = mainElement.currentStyle || window.getComputedStyle(mainElement);
+	        var style = slides[0].currentStyle || window.getComputedStyle(slides[0]);
 	        var oneImageWidth = parseInt(mainElementStyle.width, 10) < parseInt(style.width, 10) * 2;
 
 	        var nextSlide = direction ? index + 1 : index - 1;
@@ -236,7 +237,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            nextIndex += infinite;
 	        }
 
-	        var style = slides[0].currentStyle || window.getComputedStyle(slides[0]);
 	        var startingOffset = parseInt(style.paddingLeft, 10) - parseInt(style.paddingRight, 10);
 	        var nextOffset = Math.min(Math.max(slides[nextIndex].offsetLeft * -1, maxOffset * -1), 0) + (nextIndex === 0 ? 0 : startingOffset);
 
