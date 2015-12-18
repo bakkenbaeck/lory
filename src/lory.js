@@ -131,7 +131,7 @@ export function lory (slider, opts) {
         let duration = slideSpeed;
 
         const nextSlide = direction ? index + 1 : index - 1;
-        const maxOffset = Math.round(slidesWidth - frameWidth);
+        const maxOffset = slides[slides.length - 1].offsetLeft;
 
         dispatchSliderEvent('before', 'slide', {
             index,
@@ -152,7 +152,9 @@ export function lory (slider, opts) {
             nextIndex += infinite;
         }
 
-        let nextOffset = Math.min(Math.max(slides[nextIndex].offsetLeft * -1, maxOffset * -1), 0);
+        let style = slides[0].currentStyle || window.getComputedStyle(slides[0]);
+				let startingOffset = parseInt(style.paddingLeft, 10) - parseInt(style.paddingRight, 10);
+	      let nextOffset = Math.min(Math.max(slides[nextIndex].offsetLeft * -1, maxOffset * -1), 0) + (nextIndex == 0 ? 0 : startingOffset);
 
         if (rewind && Math.abs(position.x) === maxOffset && direction) {
             nextOffset = 0;
