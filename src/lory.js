@@ -153,8 +153,8 @@ export function lory (slider, opts) {
         }
 
         let style = slides[0].currentStyle || window.getComputedStyle(slides[0]);
-				let startingOffset = parseInt(style.paddingLeft, 10) - parseInt(style.paddingRight, 10);
-	      let nextOffset = Math.min(Math.max(slides[nextIndex].offsetLeft * -1, maxOffset * -1), 0) + (nextIndex == 0 ? 0 : startingOffset);
+        let startingOffset = parseInt(style.paddingLeft, 10) - parseInt(style.paddingRight, 10);
+        let nextOffset = Math.min(Math.max(slides[nextIndex].offsetLeft * -1, maxOffset * -1), 0) + (nextIndex === 0 ? 0 : startingOffset);
 
         if (rewind && Math.abs(position.x) === maxOffset && direction) {
             nextOffset = 0;

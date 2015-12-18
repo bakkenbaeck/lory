@@ -211,7 +211,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var duration = slideSpeed;
 
 	        var nextSlide = direction ? index + 1 : index - 1;
-	        var maxOffset = Math.round(slidesWidth - frameWidth);
+	        var maxOffset = slides[slides.length - 1].offsetLeft;
 
 	        dispatchSliderEvent('before', 'slide', {
 	            index: index,
@@ -232,7 +232,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            nextIndex += infinite;
 	        }
 
-	        var nextOffset = Math.min(Math.max(slides[nextIndex].offsetLeft * -1, maxOffset * -1), 0);
+	        var style = slides[0].currentStyle || window.getComputedStyle(slides[0]);
+	        var startingOffset = parseInt(style.paddingLeft, 10) - parseInt(style.paddingRight, 10);
+	        var nextOffset = Math.min(Math.max(slides[nextIndex].offsetLeft * -1, maxOffset * -1), 0) + (nextIndex === 0 ? 0 : startingOffset);
 
 	        if (rewind && Math.abs(position.x) === maxOffset && direction) {
 	            nextOffset = 0;
