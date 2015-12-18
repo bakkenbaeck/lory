@@ -226,8 +226,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        var duration = slideSpeed;
 
+	        var mainElement = document.getElementById('main').getElementsByClassName('wrap')[0];
+	        var mainElementStyle = mainElement.currentStyle || window.getComputedStyle(mainElement);
+	        var oneImageWidth = parseInt(mainElementStyle.width, 10) < parseInt(style.width, 10) * 2;
+
 	        var nextSlide = direction ? index + 1 : index - 1;
-	        var maxOffset = slides[slides.length - 1].offsetLeft;
+	        var maxOffset = slides[slides.length - (slides.length > 1 && !oneImageWidth ? 2 : 1)].offsetLeft;
 
 	        dispatchSliderEvent('before', 'slide', {
 	            index: index,

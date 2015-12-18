@@ -130,8 +130,12 @@ export function lory (slider, opts) {
 
         let duration = slideSpeed;
 
+        let mainElement = document.getElementById('main').getElementsByClassName('wrap')[0];
+        let mainElementStyle = mainElement.currentStyle || window.getComputedStyle(mainElement);
+        let oneImageWidth = parseInt(mainElementStyle.width, 10) < parseInt(style.width, 10) * 2;
+
         const nextSlide = direction ? index + 1 : index - 1;
-        const maxOffset = slides[slides.length - 1].offsetLeft;
+        const maxOffset = slides[slides.length - (slides.length > 1 && !oneImageWidth ? 2 : 1)].offsetLeft;
 
         dispatchSliderEvent('before', 'slide', {
             index,
