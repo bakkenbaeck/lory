@@ -129,14 +129,21 @@ export function lory (slider, opts) {
         } = options;
 
         let duration = slideSpeed;
+        let main = document.getElementById('main');
+        let maxOffsetElementIndex = slides.length - 1;
+        let startingOffset = 0;
 
-        let mainElement = document.getElementById('main').getElementsByClassName('wrap')[0];
-        let mainElementStyle = mainElement.currentStyle || window.getComputedStyle(mainElement);
-        let style = slides[0].currentStyle || window.getComputedStyle(slides[0]);
-        let oneImageWidth = parseInt(mainElementStyle.width, 10) < parseInt(style.width, 10) * 2;
+        if (main && main.getElementsByClassName('wrap') && main.getElementsByClassName('wrap')[0]) {
+            let wrapElement = main.getElementsByClassName('wrap')[0];
+            let wrapElementStyle = wrapElement.currentStyle || window.getComputedStyle(wrapElement);
+            let style = slides[0].currentStyle || window.getComputedStyle(slides[0]);
+            startingOffset = parseInt(style.paddingLeft, 10) - parseInt(style.paddingRight, 10);
+            let oneImageWidth = parseInt(wrapElementStyle.width, 10) < parseInt(style.width, 10) * 2;
+            maxOffsetElementIndex = slides.length - (slides.length > 1 && !oneImageWidth ? 2 : 1);
+        }
 
         const nextSlide = direction ? index + 1 : index - 1;
-        const maxOffset = slides[slides.length - (slides.length > 1 && !oneImageWidth ? 2 : 1)].offsetLeft;
+        const maxOffset = slides[maxOffsetElementIndex].offsetLeft;
 
         dispatchSliderEvent('before', 'slide', {
             index,
@@ -157,7 +164,6 @@ export function lory (slider, opts) {
             nextIndex += infinite;
         }
 
-        let startingOffset = parseInt(style.paddingLeft, 10) - parseInt(style.paddingRight, 10);
         let nextOffset = Math.min(Math.max(slides[nextIndex].offsetLeft * -1, maxOffset * -1), 0) + (nextIndex === 0 ? 0 : startingOffset);
 
         if (rewind && Math.abs(position.x) === maxOffset && direction) {

@@ -209,14 +209,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var classNameActiveSlide = _options3.classNameActiveSlide;
 
 	        var duration = slideSpeed;
+	        var main = document.getElementById('main');
+	        var maxOffsetElementIndex = slides.length - 1;
+	        var startingOffset = 0;
 
-	        var mainElement = document.getElementById('main').getElementsByClassName('wrap')[0];
-	        var mainElementStyle = mainElement.currentStyle || window.getComputedStyle(mainElement);
-	        var style = slides[0].currentStyle || window.getComputedStyle(slides[0]);
-	        var oneImageWidth = parseInt(mainElementStyle.width, 10) < parseInt(style.width, 10) * 2;
+	        if (main && main.getElementsByClassName('wrap') && main.getElementsByClassName('wrap')[0]) {
+	            var wrapElement = main.getElementsByClassName('wrap')[0];
+	            var wrapElementStyle = wrapElement.currentStyle || window.getComputedStyle(wrapElement);
+	            var style = slides[0].currentStyle || window.getComputedStyle(slides[0]);
+	            startingOffset = parseInt(style.paddingLeft, 10) - parseInt(style.paddingRight, 10);
+	            var oneImageWidth = parseInt(wrapElementStyle.width, 10) < parseInt(style.width, 10) * 2;
+	            maxOffsetElementIndex = slides.length - (slides.length > 1 && !oneImageWidth ? 2 : 1);
+	        }
 
 	        var nextSlide = direction ? index + 1 : index - 1;
-	        var maxOffset = slides[slides.length - (slides.length > 1 && !oneImageWidth ? 2 : 1)].offsetLeft;
+	        var maxOffset = slides[maxOffsetElementIndex].offsetLeft;
 
 	        dispatchSliderEvent('before', 'slide', {
 	            index: index,
@@ -237,7 +244,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            nextIndex += infinite;
 	        }
 
-	        var startingOffset = parseInt(style.paddingLeft, 10) - parseInt(style.paddingRight, 10);
 	        var nextOffset = Math.min(Math.max(slides[nextIndex].offsetLeft * -1, maxOffset * -1), 0) + (nextIndex === 0 ? 0 : startingOffset);
 
 	        if (rewind && Math.abs(position.x) === maxOffset && direction) {
